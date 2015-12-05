@@ -47,13 +47,39 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "mcc_generated_files/mcc.h"
 #include "main.h"
 
+//global values
+eeprom static unsigned char SEG_DATA[] = {
+    S7_ZERO, 
+    S7_ONE, 
+    S7_TWO, 
+    S7_THREE, 
+    S7_FOUR, 
+    S7_FIVE, 
+    S7_SIX, 
+    S7_SEVEN, 
+    S7_EIGHT, 
+    S7_NINE, 
+    S7_A, 
+    S7_B, 
+    S7_C, 
+    S7_D, 
+    S7_E, 
+    S7_F,
+    S7_DP,
+    S7_COLON,
+    S7_DEG
+};
+
 /*
-                         Main application
+   Main application
  */
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
-
+    
+    DIGIT1 = 1;
+    SEGMENTS = SEG_DATA[0xA] + S7_DP;
+    
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
 
@@ -71,7 +97,48 @@ void main(void) {
 
     while (1) {
         // Add your application code
+        NOP();
+        
     }
+}
+
+void setDisplay(unsigned char *digit, unsigned int *data) {
+    //First, get the segment values from eeprom
+    unsigned char segments = 0;
+    unsigned char charIndex = 0;
+    //Get the correct nibble from the data using the digit
+    //0xWXYZ => {0x000W, 0x00WX, 0x0WXY, 0xWXYZ} Shift by 4 x '4-digit'
+    //       => {0x000W, 0x000X, 0x000Y, 0x000Z} Mask off what we don't want
+    charIndex = (unsigned char) ((*data >> 4 * (4 - *digit))&(0x000f));
+    segments = SEG_DATA[charIndex]; //eeprom_read(char_index);
+
+    //Second, turn off the display before changing digits
+    DIGITS &= DIGITS_OFF;
+
+    //Third, set the segments to display
+    SEGMENTS = segments;
+
+    //Next turn on the appropriate digit
+    switch (*digit) {
+        case 0:
+            DIGIT0 = 1;
+            break;
+        case 1:
+            DIGIT1 = 1;
+            break;
+        case 2:
+            DIGIT2 = 1;
+            break;
+        case 3:
+            DIGIT3 = 1;
+            break;
+        case 4:
+            DIGIT4 = 1;
+            break;
+        default:
+            break;
+    }
+    return;
 }
 /**
  End of File

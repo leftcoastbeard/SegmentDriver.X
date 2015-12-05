@@ -4,7 +4,7 @@
 //Mask with 1110 0000 (0xE0) to turn off
 #define DIGITS_OFF 0xE0
 #define DIGIT0 RB4
-#define DIGTI1 RB3
+#define DIGIT1 RB3
 #define DIGIT2 RB2
 #define DIGIT3 RB1
 #define DIGIT4 RB0
@@ -13,14 +13,14 @@
 // PGD is RB7
 //These are the maps to the pins
 #define SEGMENTS PORTA
-#define SEGMENT_A RA0
-#define SEGMENT_B RA1
-#define SEGMENT_C RA2
-#define SEGMENT_D RA3
-#define SEGMENT_E RA4
-#define SEGMENT_P RA5
-#define SEGMENT_F RA6
-#define SEGMENT_G RA7
+#define SEGMENT_A RA0 //To Pin 14
+#define SEGMENT_B RA1 //To Pin 16
+#define SEGMENT_C RA2 //To Pin 13
+#define SEGMENT_D RA3 //To Pin 3
+#define SEGMENT_E RA4 //To Pin 5
+#define SEGMENT_P RA5 //To Pin 7
+#define SEGMENT_F RA6 //To Pin 11
+#define SEGMENT_G RA7 //To Pin 15
 
 //values for the 7Seg display
 //                            RA : 76543210
@@ -82,11 +82,10 @@
 #define INIT_TMR1H_Debug    0xFF
 #define INIT_SSPCON_SSPM    0xE
 
-
 //other defines
 #define TRUE 1
 #define FALSE 0
-#define NUMBER_OF_SEGMENTS 4
+#define NUMBER_OF_SEGMENTS 5
 
 //functions
 void setDisplay(unsigned char *digit, unsigned int *value);
