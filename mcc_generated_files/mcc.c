@@ -71,8 +71,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 void SYSTEM_Initialize(void) {
     OSCILLATOR_Initialize();
     PIN_MANAGER_Initialize();
-    I2C_Initialize();
     TMR1_Initialize();
+    EUSART_Initialize();
 }
 
 void OSCILLATOR_Initialize(void) {

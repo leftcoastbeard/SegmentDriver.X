@@ -67,28 +67,11 @@
 #define S7_E        0xd9
 #define S7_F        0xd1
 
-//init defines
-#define INIT_OSCCON 0x70    //sets internal clock to 8MHz
-#define INIT_ADCON1 0x06
-#define INIT_TRISA	0x00	//Set all of Port A to output, RA5 is ignored
-#define INIT_TRISB	0x12	//RB0,2,3,5 are output; Pins 1,4 are input for I2C; Pins 6,7 for ICSP
-#define INIT_T1CON  0x00    //Default setting for T1CON
-#define INIT_TMR1L_25ms 0xAF    //This sets the Timer1 count to count 50000
-#define INIT_TMR1H_25ms 0x3C    //For an interupt every 25ms
-#define INIT_TMR1L_4ms  0xE0    //This sets the Timer1 count to count 8000
-#define INIT_TMR1H_4ms  0xBF    //For an interupt every 4ms
-#define INIT_TMR1L_1ms  0x2F    //Count 2000 for 1ms interupt
-#define INIT_TMR1H_1ms  0xF8
-#define INIT_TMR1L_Debug    0xF0
-#define INIT_TMR1H_Debug    0xFF
-#define INIT_SSPCON_SSPM    0xE
-
 //other defines
 #define TRUE 1
 #define FALSE 0
 #define NUMBER_OF_DIGITS 5
 
-//#ifndef ISR_Flags_t
 typedef struct ISR_Flags_Type{
     unsigned NewTick_s : 1;
     unsigned NewTick_ms : 1;
@@ -96,8 +79,6 @@ typedef struct ISR_Flags_Type{
     unsigned :5;
     //add more flags here
 }ISR_Flags_t;
-//#define ISR_Flags_t ISR_Flags_t
-//#endif
 
 extern volatile ISR_Flags_t Flags;
 

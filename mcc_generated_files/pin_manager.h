@@ -250,27 +250,27 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define IO_RB4_ResetPullup()   do { WPUB4 = 0; } while(0)
 #define IO_RB4_SetAnalogMode()   do { ANSB4 = 1; } while(0)
 #define IO_RB4_SetDigitalMode()   do { ANSB4 = 0; } while(0)
-// get/set SCL aliases
-#define SCL_TRIS               TRISC3
-#define SCL_LAT                LATC3
-#define SCL_PORT               RC3
-#define SCL_SetHigh()    do { LATC3 = 1; } while(0)
-#define SCL_SetLow()   do { LATC3 = 0; } while(0)
-#define SCL_Toggle()   do { LATC3 = ~LATC3; } while(0)
-#define SCL_GetValue()         RC3
-#define SCL_SetDigitalInput()    do { TRISC3 = 1; } while(0)
-#define SCL_SetDigitalOutput()   do { TRISC3 = 0; } while(0)
+// get/set CK aliases
+#define CK_TRIS               TRISC6
+#define CK_LAT                LATC6
+#define CK_PORT               RC6
+#define CK_SetHigh()    do { LATC6 = 1; } while(0)
+#define CK_SetLow()   do { LATC6 = 0; } while(0)
+#define CK_Toggle()   do { LATC6 = ~LATC6; } while(0)
+#define CK_GetValue()         RC6
+#define CK_SetDigitalInput()    do { TRISC6 = 1; } while(0)
+#define CK_SetDigitalOutput()   do { TRISC6 = 0; } while(0)
 
-// get/set SDA aliases
-#define SDA_TRIS               TRISC4
-#define SDA_LAT                LATC4
-#define SDA_PORT               RC4
-#define SDA_SetHigh()    do { LATC4 = 1; } while(0)
-#define SDA_SetLow()   do { LATC4 = 0; } while(0)
-#define SDA_Toggle()   do { LATC4 = ~LATC4; } while(0)
-#define SDA_GetValue()         RC4
-#define SDA_SetDigitalInput()    do { TRISC4 = 1; } while(0)
-#define SDA_SetDigitalOutput()   do { TRISC4 = 0; } while(0)
+// get/set DT aliases
+#define DT_TRIS               TRISC7
+#define DT_LAT                LATC7
+#define DT_PORT               RC7
+#define DT_SetHigh()    do { LATC7 = 1; } while(0)
+#define DT_SetLow()   do { LATC7 = 0; } while(0)
+#define DT_Toggle()   do { LATC7 = ~LATC7; } while(0)
+#define DT_GetValue()         RC7
+#define DT_SetDigitalInput()    do { TRISC7 = 1; } while(0)
+#define DT_SetDigitalOutput()   do { TRISC7 = 0; } while(0)
 
 
 /**

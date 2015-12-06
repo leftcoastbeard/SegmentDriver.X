@@ -57,7 +57,7 @@ void PIN_MANAGER_Initialize(void) {
     ANSELB = 0x20;
     WPUB = 0x00;
 
-    LATC = 0x18;
+    LATC = 0x00;
     TRISC = 0xFF;
 
     LATE = 0x00;
