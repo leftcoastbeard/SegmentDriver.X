@@ -48,52 +48,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "main.h"
 
 //global values
-/* SEG_DATA range is: 
- * 00-0F = [0 ] to [F ]
- * 10-1F = [0.] to [F.]
- * 20    = [ .]
- * 21-23 = [:], ['], & [:'] Only USE with DIGIT0!
- * 24    = [  ],
- */
-eeprom static unsigned char SEG_DATA[] = {
-    S7_ZERO,
-    S7_ONE,
-    S7_TWO,
-    S7_THREE,
-    S7_FOUR,
-    S7_FIVE,
-    S7_SIX,
-    S7_SEVEN,
-    S7_EIGHT,
-    S7_NINE,
-    S7_A,
-    S7_B,
-    S7_C,
-    S7_D,
-    S7_E,
-    S7_F,
-    S7_DP + S7_ZERO,
-    S7_DP + S7_ONE,
-    S7_DP + S7_TWO,
-    S7_DP + S7_THREE,
-    S7_DP + S7_FOUR,
-    S7_DP + S7_FIVE,
-    S7_DP + S7_SIX,
-    S7_DP + S7_SEVEN,
-    S7_DP + S7_EIGHT,
-    S7_DP + S7_NINE,
-    S7_DP + S7_A,
-    S7_DP + S7_B,
-    S7_DP + S7_C,
-    S7_DP + S7_D,
-    S7_DP + S7_E,
-    S7_DP + S7_F,
-    S7_DP,
-    S7_COLON,
-    S7_DEG,
-    S7_DEG + S7_COLON,
-    S7_BLANK
-};
 
 volatile ISR_Flags_t Flags;
 
@@ -103,7 +57,7 @@ volatile ISR_Flags_t Flags;
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
-    uint8_t digit_data[NUMBER_OF_DIGITS] = {S7_BLANK, S7_A, S7_C, S7_E + S7_DP, S7_FIVE};
+    uint8_t digit_data[NUMBER_OF_DIGITS] = {S7_DEG + S7_COLON, S7_DP + S7_A, S7_DP + S7_C, S7_E + S7_DP, S7_DP + S7_FIVE};
     uint8_t digit_index = 0;
     //DIGIT1 = 1;
     //SEGMENTS = SEG_DATA[0xA] + S7_DP;

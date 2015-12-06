@@ -64,16 +64,16 @@
             <setting name="BORV" option="LO"/>
             <setting name="generateConfigBits" option="true"/>
             <file checksum="132119598" modified="false" name="mcc.c" path="mcc_generated_files/mcc.c"/>
-            <file checksum="3966313484" modified="false" name="mcc.h" path="mcc_generated_files/mcc.h"/>
+            <file checksum="753933659" modified="false" name="mcc.h" path="mcc_generated_files/mcc.h"/>
         </manager>
         <manager generated="true" name="Interrupt Manager" reloadPin="manual">
             <setting name="preemptHigh" option="true"/>
             <setting name="preemptLow" option="true"/>
             <setting name="useIPEN" option="false"/>
-            <interrupt module="MSSP" name="SSPI" priority="2"/>
-            <interrupt module="TMR1" name="TMRI" priority="2"/>
             <file checksum="3642085816" modified="false" name="interrupt_manager.c" path="mcc_generated_files/interrupt_manager.c"/>
             <file checksum="4099210481" modified="false" name="interrupt_manager.h" path="mcc_generated_files/interrupt_manager.h"/>
+            <interrupt module="MSSP" name="SSPI" priority="2"/>
+            <interrupt module="TMR1" name="TMRI" priority="2"/>
         </manager>
     </managers>
     <modules>
@@ -160,11 +160,6 @@
             <setting name="hasGate" option="true"/>
             <file checksum="2360206084" modified="false" name="tmr1.c" path="mcc_generated_files/tmr1.c"/>
             <file checksum="949587609" modified="false" name="tmr1.h" path="mcc_generated_files/tmr1.h"/>
-        </module>
-        <module generated="true" mode="Memory" name="MEMORY" order="3" reloadPin="manual" type="nvm">
-            <setting name="useEE" option="true"/>
-            <file checksum="1089500072" modified="false" name="memory.c" path="mcc_generated_files/memory.c"/>
-            <file checksum="2803200742" modified="false" name="memory.h" path="mcc_generated_files/memory.h"/>
         </module>
     </modules>
 </configuration>

@@ -53,7 +53,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "interrupt_manager.h"
 #include "i2c.h"
 #include "tmr1.h"
-#include "memory.h"
 
 #define _XTAL_FREQ  16000000
 
