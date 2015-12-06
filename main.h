@@ -46,6 +46,7 @@
 //
 //Display values from 0-F; RA5 is not useable
 
+#define S7_BLANK    0x00
 #define S7_DP		0x20	//Add this to get the decimal point
 #define S7_DEG		0x04	//Only valid for DIGIT0
 #define S7_COLON	0x03    //Only valid for DIGIT0
@@ -85,7 +86,20 @@
 //other defines
 #define TRUE 1
 #define FALSE 0
-#define NUMBER_OF_SEGMENTS 5
+#define NUMBER_OF_DIGITS 5
+
+//#ifndef ISR_Flags_t
+typedef struct ISR_Flags_Type{
+    unsigned NewTick_s : 1;
+    unsigned NewTick_ms : 1;
+    unsigned NewTick_ds : 1;
+    unsigned :5;
+    //add more flags here
+}ISR_Flags_t;
+//#define ISR_Flags_t ISR_Flags_t
+//#endif
+
+extern volatile ISR_Flags_t Flags;
 
 //functions
-void setDisplay(unsigned char *digit, unsigned int *value);
+void setDisplay(uint8_t *digit, uint8_t *value);

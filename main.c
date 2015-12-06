@@ -48,27 +48,54 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "main.h"
 
 //global values
+/* SEG_DATA range is: 
+ * 00-0F = [0 ] to [F ]
+ * 10-1F = [0.] to [F.]
+ * 20    = [ .]
+ * 21-23 = [:], ['], & [:'] Only USE with DIGIT0!
+ * 24    = [  ],
+ */
 eeprom static unsigned char SEG_DATA[] = {
-    S7_ZERO, 
-    S7_ONE, 
-    S7_TWO, 
-    S7_THREE, 
-    S7_FOUR, 
-    S7_FIVE, 
-    S7_SIX, 
-    S7_SEVEN, 
-    S7_EIGHT, 
-    S7_NINE, 
-    S7_A, 
-    S7_B, 
-    S7_C, 
-    S7_D, 
-    S7_E, 
+    S7_ZERO,
+    S7_ONE,
+    S7_TWO,
+    S7_THREE,
+    S7_FOUR,
+    S7_FIVE,
+    S7_SIX,
+    S7_SEVEN,
+    S7_EIGHT,
+    S7_NINE,
+    S7_A,
+    S7_B,
+    S7_C,
+    S7_D,
+    S7_E,
     S7_F,
+    S7_DP + S7_ZERO,
+    S7_DP + S7_ONE,
+    S7_DP + S7_TWO,
+    S7_DP + S7_THREE,
+    S7_DP + S7_FOUR,
+    S7_DP + S7_FIVE,
+    S7_DP + S7_SIX,
+    S7_DP + S7_SEVEN,
+    S7_DP + S7_EIGHT,
+    S7_DP + S7_NINE,
+    S7_DP + S7_A,
+    S7_DP + S7_B,
+    S7_DP + S7_C,
+    S7_DP + S7_D,
+    S7_DP + S7_E,
+    S7_DP + S7_F,
     S7_DP,
     S7_COLON,
-    S7_DEG
+    S7_DEG,
+    S7_DEG + S7_COLON,
+    S7_BLANK
 };
+
+volatile ISR_Flags_t Flags;
 
 /*
    Main application
@@ -76,18 +103,19 @@ eeprom static unsigned char SEG_DATA[] = {
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
-    
-    DIGIT1 = 1;
-    SEGMENTS = SEG_DATA[0xA] + S7_DP;
-    
+    uint8_t digit_data[NUMBER_OF_DIGITS] = {S7_BLANK, S7_A, S7_C, S7_E + S7_DP, S7_FIVE};
+    uint8_t digit_index = 0;
+    //DIGIT1 = 1;
+    //SEGMENTS = SEG_DATA[0xA] + S7_DP;
+
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
 
     // Enable the Global Interrupts
-    //INTERRUPT_GlobalInterruptEnable();
+    INTERRUPT_GlobalInterruptEnable();
 
     // Enable the Peripheral Interrupts
-    //INTERRUPT_PeripheralInterruptEnable();
+    INTERRUPT_PeripheralInterruptEnable();
 
     // Disable the Global Interrupts
     //INTERRUPT_GlobalInterruptDisable();
@@ -98,27 +126,33 @@ void main(void) {
     while (1) {
         // Add your application code
         NOP();
-        
+        if (Flags.NewTick_ms) {
+            Flags.NewTick_ms = FALSE;
+            setDisplay(&digit_index, &digit_data[digit_index]);
+            digit_index++;
+            if(digit_index == NUMBER_OF_DIGITS) digit_index = 0;
+        }
+
     }
 }
 
-void setDisplay(unsigned char *digit, unsigned int *data) {
+void setDisplay(uint8_t *digit, uint8_t *value) {
     //First, get the segment values from eeprom
-    unsigned char segments = 0;
-    unsigned char charIndex = 0;
+    //unsigned char segments = *value;
+    //unsigned char charIndex = 0;
     //Get the correct nibble from the data using the digit
     //0xWXYZ => {0x000W, 0x00WX, 0x0WXY, 0xWXYZ} Shift by 4 x '4-digit'
     //       => {0x000W, 0x000X, 0x000Y, 0x000Z} Mask off what we don't want
-    charIndex = (unsigned char) ((*data >> 4 * (4 - *digit))&(0x000f));
-    segments = SEG_DATA[charIndex]; //eeprom_read(char_index);
+    //charIndex = (unsigned char) ((*data >> 4 * (4 - *digit))&(0x000f));
+    //segments = SEG_DATA[charIndex]; //eeprom_read(char_index);
 
-    //Second, turn off the display before changing digits
+    //Turn off the display before changing digits
     DIGITS &= DIGITS_OFF;
 
-    //Third, set the segments to display
-    SEGMENTS = segments;
+    //Set the segments to display
+    SEGMENTS = *value;
 
-    //Next turn on the appropriate digit
+    //Turn on the appropriate digit
     switch (*digit) {
         case 0:
             DIGIT0 = 1;
