@@ -71,16 +71,34 @@
 #define TRUE 1
 #define FALSE 0
 #define NUMBER_OF_DIGITS 5
+#define SERIAL_HEAD 0x57 //'w'
+#define SERIAL_TAIL 0x77 //'W'
+#define BUFFERS 2
 
-typedef struct ISR_Flags_Type{
-    unsigned NewTick_s : 1;
+typedef struct ISR_Flags_Type {
+    unsigned NewSerialByte : 1;
     unsigned NewTick_ms : 1;
-    unsigned NewTick_ds : 1;
-    unsigned :5;
+    unsigned NewDisplayData : 1;
+    unsigned : 5;
     //add more flags here
-}ISR_Flags_t;
+} ISR_Flags_t;
 
 extern volatile ISR_Flags_t Flags;
+
+/* 
+ * Serial protocol:
+ * ['W',D0,D1,D2,D3,D4,'w']
+ * 
+ */
+typedef enum State_Machine {
+    _W = 'W',
+    _D0 = 0,
+    _D1 = 1,
+    _D2 = 2,
+    _D3 = 3,
+    _D4 = 4,
+    _w = 'w'
+} State_t;
 
 //functions
 void setDisplay(uint8_t *digit, uint8_t *value);

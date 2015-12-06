@@ -52,8 +52,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 /**
   Section: Macro Declarations
  */
-#define EUSART_TX_BUFFER_SIZE 8
-#define EUSART_RX_BUFFER_SIZE 8
+#define EUSART_TX_BUFFER_SIZE 64
+#define EUSART_RX_BUFFER_SIZE 64
 
 /**
   Section: Global Variables
@@ -80,14 +80,14 @@ void EUSART_Initialize(void) {
 
     // Set the EUSART module to the options selected in the user interface.
 
-    // ABDOVF no_overflow; SCKP async_noninverted_sync_fallingedge; RCIDL idle; BRG16 16bit_generator; WUE disabled; ABDEN disabled; 
-    BAUDCON = 0x48;
+    // ABDOVF no_overflow; SCKP async_noninverted_sync_fallingedge; RCIDL idle; BRG16 16bit_generator; WUE disabled; ABDEN enabled; 
+    BAUDCON = 0x49;
 
     // SPEN enabled; OERR no_error; RX9 8-bit; RX9D 0x0; CREN enabled; ADDEN disabled; SREN disabled; FERR no_error; 
     RCSTA = 0x90;
 
-    // TRMT TSR_empty; TX9 8-bit; TX9D 0x0; SENDB sync_break_complete; TXEN disabled; SYNC synchronous; BRGH lo_speed; CSRC slave_mode; 
-    TXSTA = 0x12;
+    // TRMT TSR_empty; TX9 8-bit; TX9D 0x0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave_mode; 
+    TXSTA = 0x26;
 
     // Baud Rate = 9600; SPBRGL 160; 
     SPBRGL = 0xA0;

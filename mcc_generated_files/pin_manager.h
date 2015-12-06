@@ -250,27 +250,27 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define IO_RB4_ResetPullup()   do { WPUB4 = 0; } while(0)
 #define IO_RB4_SetAnalogMode()   do { ANSB4 = 1; } while(0)
 #define IO_RB4_SetDigitalMode()   do { ANSB4 = 0; } while(0)
-// get/set CK aliases
-#define CK_TRIS               TRISC6
-#define CK_LAT                LATC6
-#define CK_PORT               RC6
-#define CK_SetHigh()    do { LATC6 = 1; } while(0)
-#define CK_SetLow()   do { LATC6 = 0; } while(0)
-#define CK_Toggle()   do { LATC6 = ~LATC6; } while(0)
-#define CK_GetValue()         RC6
-#define CK_SetDigitalInput()    do { TRISC6 = 1; } while(0)
-#define CK_SetDigitalOutput()   do { TRISC6 = 0; } while(0)
+// get/set TX aliases
+#define TX_TRIS               TRISC6
+#define TX_LAT                LATC6
+#define TX_PORT               RC6
+#define TX_SetHigh()    do { LATC6 = 1; } while(0)
+#define TX_SetLow()   do { LATC6 = 0; } while(0)
+#define TX_Toggle()   do { LATC6 = ~LATC6; } while(0)
+#define TX_GetValue()         RC6
+#define TX_SetDigitalInput()    do { TRISC6 = 1; } while(0)
+#define TX_SetDigitalOutput()   do { TRISC6 = 0; } while(0)
 
-// get/set DT aliases
-#define DT_TRIS               TRISC7
-#define DT_LAT                LATC7
-#define DT_PORT               RC7
-#define DT_SetHigh()    do { LATC7 = 1; } while(0)
-#define DT_SetLow()   do { LATC7 = 0; } while(0)
-#define DT_Toggle()   do { LATC7 = ~LATC7; } while(0)
-#define DT_GetValue()         RC7
-#define DT_SetDigitalInput()    do { TRISC7 = 1; } while(0)
-#define DT_SetDigitalOutput()   do { TRISC7 = 0; } while(0)
+// get/set RX aliases
+#define RX_TRIS               TRISC7
+#define RX_LAT                LATC7
+#define RX_PORT               RC7
+#define RX_SetHigh()    do { LATC7 = 1; } while(0)
+#define RX_SetLow()   do { LATC7 = 0; } while(0)
+#define RX_Toggle()   do { LATC7 = ~LATC7; } while(0)
+#define RX_GetValue()         RC7
+#define RX_SetDigitalInput()    do { TRISC7 = 1; } while(0)
+#define RX_SetDigitalOutput()   do { TRISC7 = 0; } while(0)
 
 
 /**

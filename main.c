@@ -57,8 +57,15 @@ volatile ISR_Flags_t Flags;
 void main(void) {
     // initialize the device
     SYSTEM_Initialize();
-    uint8_t digit_data[NUMBER_OF_DIGITS] = {S7_DEG + S7_COLON, S7_DP + S7_A, S7_DP + S7_C, S7_E + S7_DP, S7_DP + S7_FIVE};
+    uint8_t digit_data[BUFFERS][NUMBER_OF_DIGITS] = {
+        {S7_DEG + S7_COLON, S7_DP + S7_A, S7_DP + S7_C, S7_E + S7_DP, S7_DP + S7_FIVE},
+        {S7_DEG + S7_COLON, S7_DP + S7_A, S7_DP + S7_C, S7_E + S7_DP, S7_DP + S7_FIVE}
+    };
     uint8_t digit_index = 0;
+    State_t data_state = _W;
+    uint8_t temp = 0;
+    bool current_buffer = 0;
+    uint32_t count = 0;
 
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -80,11 +87,53 @@ void main(void) {
         NOP();
         if (Flags.NewTick_ms) {
             Flags.NewTick_ms = FALSE;
-            setDisplay(&digit_index, &digit_data[digit_index]);
+            setDisplay(&digit_index, &digit_data[current_buffer][digit_index]);
             digit_index++;
-            if(digit_index == NUMBER_OF_DIGITS) digit_index = 0;
+            if (digit_index == NUMBER_OF_DIGITS) digit_index = 0;
+            count++;
+            if (count == 1000) {
+                count = 0;
+                EUSART_Write('X');
+            }
         }
-
+        if (EUSART_DataReady) {
+            while (EUSART_DataReady) {
+                temp = EUSART_Read();
+                switch (data_state) {
+                    case _W:
+                        if (temp == data_state) data_state = _D0;
+                        break;
+                    case _D0:
+                        digit_data[!current_buffer][data_state] = temp;
+                        data_state = _D1;
+                        break;
+                    case _D1:
+                        digit_data[!current_buffer][data_state] = temp;
+                        data_state = _D2;
+                        break;
+                    case _D2:
+                        digit_data[!current_buffer][data_state] = temp;
+                        data_state = _D3;
+                        break;
+                    case _D3:
+                        digit_data[!current_buffer][data_state] = temp;
+                        data_state = _D4;
+                        break;
+                    case _D4:
+                        digit_data[!current_buffer][data_state] = temp;
+                        data_state = _w;
+                        break;
+                    case _w:
+                        if (temp == data_state) {
+                            data_state = _W;
+                            current_buffer = !current_buffer;
+                        }
+                    default:
+                        break;
+                }
+                temp = 0;
+            }
+        }
     }
 }
 

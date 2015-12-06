@@ -56,7 +56,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
   Section: Global Variables Definitions
  */
 volatile uint16_t timer1ReloadVal;
-extern volatile ISR_Flags_t Flags;
 /**
   Section: TMR1 APIs
  */
@@ -155,7 +154,7 @@ void TMR1_ISR(void) {
 
 void TMR1_CallBack(void) {
     // Add your custom callback code here
-    Flags.NewTick_ms = 1;
+    Flags.NewTick_ms = TRUE;
 }
 /**
   End of File

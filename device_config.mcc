@@ -24,10 +24,10 @@
             <resource customName="IO_RB2" digital="true" direction="OUTPUT" function="RB2" ioc="0" module="GPIO" name="RB2" start="false" type="pin" wpu="false"/>
             <resource customName="IO_RB3" digital="true" direction="OUTPUT" function="RB3" ioc="0" module="GPIO" name="RB3" start="false" type="pin" wpu="false"/>
             <resource customName="IO_RB4" digital="true" direction="OUTPUT" function="RB4" ioc="0" module="GPIO" name="RB4" start="false" type="pin" wpu="false"/>
-            <resource customName="CK" digital="true" direction="BIDIRECTIONAL" function="CK" module="EUSART" name="RC6" start="false" type="pin" wpu="false"/>
-            <resource customName="DT" digital="true" direction="BIDIRECTIONAL" function="DT" module="EUSART" name="RC7" start="false" type="pin" wpu="false"/>
+            <resource customName="TX" digital="true" direction="INPUT" function="TX" module="EUSART" name="RC6" start="false" type="pin" wpu="false"/>
+            <resource customName="RX" digital="true" direction="INPUT" function="RX" module="EUSART" name="RC7" start="false" type="pin" wpu="false"/>
             <file checksum="2502400389" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
-            <file checksum="472867295" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
+            <file checksum="1066034111" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
         </manager>
         <manager generated="true" name="System" reloadPin="manual">
             <initializer comment="" name="Initialize">
@@ -70,11 +70,11 @@
             <setting name="preemptHigh" option="true"/>
             <setting name="preemptLow" option="true"/>
             <setting name="useIPEN" option="false"/>
-            <file checksum="372763965" modified="false" name="interrupt_manager.c" path="mcc_generated_files/interrupt_manager.c"/>
+            <file checksum="400944445" modified="false" name="interrupt_manager.c" path="mcc_generated_files/interrupt_manager.c"/>
             <file checksum="4099210481" modified="false" name="interrupt_manager.h" path="mcc_generated_files/interrupt_manager.h"/>
+            <interrupt module="TMR1" name="TMRI" priority="2"/>
             <interrupt module="EUSART" name="RCI" priority="2"/>
             <interrupt module="EUSART" name="TXI" priority="2"/>
-            <interrupt module="TMR1" name="TMRI" priority="2"/>
         </manager>
     </managers>
     <modules>
@@ -119,14 +119,14 @@
             <file checksum="2360206084" modified="false" name="tmr1.c" path="mcc_generated_files/tmr1.c"/>
             <file checksum="949587609" modified="false" name="tmr1.h" path="mcc_generated_files/tmr1.h"/>
         </module>
-        <module generated="true" mode="EUSART Synchronous (SYNC)" name="EUSART" order="2" reloadPin="manual" type="uart_autobd">
+        <module generated="true" mode="EUSART Asynchronous(NRZ)" name="EUSART" order="2" reloadPin="manual" type="uart_autobd">
             <initializer comment="" name="Initialize">
                 <setting name="ABDOVF" option="no_overflow" register="BAUDCON"/>
                 <setting name="SCKP" option="async_noninverted_sync_fallingedge" register="BAUDCON"/>
                 <setting name="RCIDL" option="idle" register="BAUDCON"/>
                 <setting name="BRG16" option="16bit_generator" register="BAUDCON"/>
                 <setting name="WUE" option="disabled" register="BAUDCON"/>
-                <setting name="ABDEN" option="disabled" register="BAUDCON"/>
+                <setting name="ABDEN" option="enabled" register="BAUDCON"/>
                 <setting name="SPEN" option="enabled" register="RCSTA"/>
                 <setting name="OERR" option="no_error" register="RCSTA"/>
                 <setting name="RX9" option="8-bit" register="RCSTA"/>
@@ -139,23 +139,23 @@
                 <setting name="TX9" option="8-bit" register="TXSTA"/>
                 <setting name="TX9D" option="0x0" register="TXSTA"/>
                 <setting name="SENDB" option="sync_break_complete" register="TXSTA"/>
-                <setting name="TXEN" option="disabled" register="TXSTA"/>
-                <setting name="SYNC" option="synchronous" register="TXSTA"/>
-                <setting name="BRGH" option="lo_speed" register="TXSTA"/>
+                <setting name="TXEN" option="enabled" register="TXSTA"/>
+                <setting name="SYNC" option="asynchronous" register="TXSTA"/>
+                <setting name="BRGH" option="hi_speed" register="TXSTA"/>
                 <setting name="CSRC" option="slave_mode" register="TXSTA"/>
                 <setting name="SPBRGL" option="160" register="SPBRGL"/>
                 <setting name="SPBRGH" option="1" register="SPBRGH"/>
                 <setting name="TXREG" option="0x0" register="TXREG"/>
                 <setting name="RCREG" option="0x0" register="RCREG"/>
-                <additionalSetting name="baudrateSetting" option="9600"/>
+                <additionalSetting name="baudrateString" option="9600"/>
             </initializer>
             <setting name="RCI" option="true"/>
             <setting name="TXI" option="true"/>
-            <setting name="inputBuffer" option="8"/>
-            <setting name="outputBuffer" option="8"/>
+            <setting name="inputBuffer" option="64"/>
+            <setting name="outputBuffer" option="64"/>
             <setting name="stdio" option="false"/>
-            <file checksum="317116262" modified="false" name="eusart.c" path="mcc_generated_files/eusart.c"/>
-            <file checksum="137170249" modified="false" name="eusart.h" path="mcc_generated_files/eusart.h"/>
+            <file checksum="3951021901" modified="false" name="eusart.c" path="mcc_generated_files/eusart.c"/>
+            <file checksum="3963776708" modified="false" name="eusart.h" path="mcc_generated_files/eusart.h"/>
         </module>
     </modules>
 </configuration>
